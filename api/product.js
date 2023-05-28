@@ -1,17 +1,18 @@
-import express from "express";
+import express, { response } from "express";
+import db from "../connection";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  try {
-    res.json({
-      status: 200,
-      message: "Get data has successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send("Server error");
-  }
+router.get("/", (req, res) => {
+  res.send("Holla semuanya...!");
+});
+
+router.get("/mahasiswa", (req, res) => {
+  const query = "SELECT * FROM mahasiswa";
+  db.query(query, (error, rows) => {
+    if (error) throw error;
+    response(200, "Berhasil mendapatkan data mahasiswa", rows, res);
+  });
 });
 
 export default router;
